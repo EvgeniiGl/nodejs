@@ -5,7 +5,6 @@ const path = require("path");
 const input = readline.createInterface(process.stdin, process.stdout);
 const number = Math.floor(Math.random() * 2 + 1);
 
-
 const fileName = process.argv.slice(2)[0];
 
 console.log("Наименование файла логов: " + fileName);
