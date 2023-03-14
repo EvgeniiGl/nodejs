@@ -4,9 +4,7 @@ const {Book} = require("../Books/Entities/Book");
 class BookController {
     indexAction = function (req, res) {
         const books = booksStore.map(book => new Book(book.id, book.title, book.body))
-console.log('log--','\n',
-'books--',books,'\n',
-)
+
         res.render('index', {books: books});
     }
 
@@ -30,9 +28,7 @@ console.log('log--','\n',
     saveAction = function (req, res) {
         const id = Number(req.params.id)
         const {title, body} = req.body
-        console.log('log--','\n',
-        'req--',req,'\n',
-        )
+
         if (id) {
             booksStore.forEach((book) => {
                 if (id === book.id) {
