@@ -1,0 +1,20 @@
+<%- include('./partials/head') %>
+<%- include('./partials/header') %>
+<body>
+<ul>
+    <% books.forEach((book)=> { %>
+        <li>
+            <h2>
+                <a href="/view/<%= book.id %>"><%= book.title %></a>
+            </h2>
+            <p>
+                <%= book.body %>
+            </p>
+            <a href="/create/<%= book.id %>">Редактировать</a>
+        </li>
+        <hr/>
+    <% }) %>
+</ul>
+<a href="/create">Добавить</a>
+</body>
+<%- include('./partials/footer') %>
