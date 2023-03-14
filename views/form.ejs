@@ -1,0 +1,23 @@
+<%- include('./partials/head') %>
+<%- include('./partials/header') %>
+<body>
+<h1>Добавить книгу</h1>
+<form name="form1" method="POST" action="/save<%= id ? '/' + id : '' %>">
+    <table>
+        <tr>
+            <td>Название</td>
+            <td><input type="text" name="title"></td>
+        </tr>
+        <tr>
+            <td>Контент</td>
+            <td><input type="text" name="body"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Сохранить">
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+<%- include('./partials/footer') %>
