@@ -14,5 +14,5 @@ function initRoutes(app) {
 }
 
 module.exports = {
-    initRoutes
+    routes_web: initRoutes
 }
