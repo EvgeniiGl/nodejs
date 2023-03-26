@@ -1,24 +1,48 @@
 class Book {
     #id
     #title
-    #body
+    #description
+    #authors
+    #favorite
+    #fileCover
+    #fileName
 
-    constructor(id, title, body) {
-        this._id = id;
-        this._title = title;
-        this._body = body;
+    constructor(book) {
+        this._id = book.id;
+        this._title = book.title;
+        this._description = book.description;
+        this._authors = book.authors;
+        this._favorite = book.favorite;
+        this._fileCover = book.fileCover;
+        this._fileName = book.fileName;
     }
 
     get id() {
-        return this._id;
+        return this.#id;
     }
 
     get title() {
-        return this._title;
+        return this.#title;
     }
 
-    get body() {
-        return this._body;
+    get description() {
+        return this.#description;
+    }
+
+    get authors() {
+        return this.#authors;
+    }
+
+    get favorite() {
+        return this.#favorite;
+    }
+
+    get fileCover() {
+        return this.#fileCover;
+    }
+
+    get fileName() {
+        return this.#fileName;
     }
 }
 
