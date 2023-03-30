@@ -1,6 +1,6 @@
 const {booksStore} = require("../../Books/store");
-const {Book} = require("../../Books/Entities/Book");
-
+const fs = require('fs');
+const {dirname} = require('path');
 
 class BookController {
 
@@ -24,6 +24,10 @@ class BookController {
             id: String(Date.now())
         }
 
+        if (req.file) {
+            newBook.fileName = req.file.path
+        }
+
         booksStore.push(newBook)
 
         const books = booksStore
@@ -39,6 +43,13 @@ class BookController {
         const index = booksStore.findIndex(book => book.id === id)
         if (index === -1) {
             throw new Error('Ошибка');
+        }
+        const newBook = {
+            ...req.body,
+            id: id
+        }
+        if (req.file) {
+            newBook.fileName = req.file.path
         }
         booksStore[index] = {
             ...req.body,
@@ -62,6 +73,24 @@ class BookController {
 
     }
 
+    download = function (req, res) {
+        const id = req.params.id
+        if (!id) {
+            res.status(422)
+            res.json({error: 'Не передан ид книги'})
+        }
+        const index = booksStore.findIndex(book => book.id === id)
+        if (index === -1 || !booksStore[index].fileName) {
+            res.status(404)
+            res.json({error: 'Книга не найдена'})
+        }
+
+        const path = dirname(require.main.filename) + '/public/my-uploads/' + booksStore[index].fileName;
+        const file = fs.createReadStream(path)
+        const filename = booksStore[index].fileName
+        res.setHeader('Content-Disposition', 'attachment: filename="' + filename + '"')
+        file.pipe(res)
+    }
 }
 
 module.exports = {

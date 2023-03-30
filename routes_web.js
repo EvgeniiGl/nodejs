@@ -1,16 +1,22 @@
 const {bookController} = require("./Controllers/BookController");
 const bodyParser = require("body-parser");
+const express = require("express");
 
 const jsonParser = bodyParser.json()
 
 function initRoutes(app) {
-    app.get('/', bookController.indexAction);
 
-    app.get('/view/:id', bookController.viewAction);
+    const webRouter = express.Router();
 
-    app.get('/create/:id?', bookController.createAction);
+    webRouter.get('/', bookController.indexAction);
 
-    app.post('/save/:id?', jsonParser, bookController.saveAction);
+    webRouter.get('/view/:id', bookController.viewAction);
+
+    webRouter.get('/create/:id?', bookController.createAction);
+
+    webRouter.post('/save/:id?', jsonParser, bookController.saveAction);
+
+    app.use('/api', webRouter);
 }
 
 module.exports = {
