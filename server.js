@@ -1,16 +1,11 @@
 const express = require('express');
 const {routes_web} = require("./routes_web");
 const {routes_api} = require("./routes_api");
-const bodyParser = require('body-parser')
 
 const app = express()
-app.use(bodyParser.json())
-// create application/json parser
-
-app.use(bodyParser.urlencoded({extended: true}))
 
 app.set('view engine', 'ejs');
-
+app.use('/public', express.static(__dirname + '/public'))
 routes_web(app);
 routes_api(app);
 
