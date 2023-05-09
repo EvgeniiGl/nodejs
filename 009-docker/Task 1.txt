@@ -1,0 +1,145 @@
+1. Загрузите образ busybox последней версии
+
+$ docker pull busybox
+
+Using default tag: latest
+latest: Pulling from library/busybox
+b50100f25006: Pull complete 
+Digest: sha256:b5d6fe0712636ceb7430189de28819e195e8966372edfc2d9409d79402a0dc16
+Status: Downloaded newer image for busybox:latest
+docker.io/library/busybox:latest
+
+
+2. Запустите новый контейнер busybox с командой ping сайта netology.ru, и количеством пингов 7, поименуйте контейнер pinger
+
+$ docker run --name pinger -it busybox ping -c 7 netology.ru
+
+PING netology.ru (188.114.99.136): 56 data bytes
+64 bytes from 188.114.99.136: seq=0 ttl=58 time=2.577 ms
+64 bytes from 188.114.99.136: seq=1 ttl=58 time=4.394 ms
+64 bytes from 188.114.99.136: seq=2 ttl=58 time=3.033 ms
+64 bytes from 188.114.99.136: seq=3 ttl=58 time=2.842 ms
+64 bytes from 188.114.99.136: seq=4 ttl=58 time=10.687 ms
+64 bytes from 188.114.99.136: seq=5 ttl=58 time=2.911 ms
+64 bytes from 188.114.99.136: seq=6 ttl=58 time=4.959 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 2.577/4.486/10.687 ms
+
+3. Выведите на список всех контейнеров - запущенных и остановленных
+
+$ docker ps -a
+
+CONTAINER ID   IMAGE                               COMMAND                  CREATED         STATUS                      PORTS                                            NAMES
+b4a486188b5f   busybox                             "ping -c 7 netology.…"   4 minutes ago   Exited (1) 4 minutes ago                                                     pinger
+afe3ca26c1e5   d-repo.rtmis.ru/medservice:beta     "/entry.sh"              6 days ago      Exited (255) 5 days ago     0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp         medservice
+c3b033eec340   nginx:1.12-alpine                   "nginx -g 'daemon of…"   3 weeks ago     Up 7 hours                  0.0.0.0:8080->80/tcp                             nginx
+b4d04e851dac   redis:latest                        "docker-entrypoint.s…"   3 weeks ago     Up 7 hours                  6379/tcp                                         your_compass_server-redis_system-1
+614b1b46fac8   your_compass_server-php-fpm         "docker-php-entrypoi…"   3 weeks ago     Up 7 hours                  9000/tcp                                         your_compass_server-php-fpm-1
+ee41f9612eee   mysql:8                             "docker-entrypoint.s…"   3 weeks ago     Up 7 hours                  33060/tcp, 0.0.0.0:3305->3306/tcp                your_compass_server-mysql-1
+f2568a110295   quay.io/minio/minio:latest          "/usr/bin/docker-ent…"   3 weeks ago     Up 7 hours                  0.0.0.0:9001->9001/tcp, 0.0.0.0:9002->9000/tcp   Minio
+6605d87546da   memcached:latest                    "docker-entrypoint.s…"   3 weeks ago     Up 7 hours                  11211/tcp                                        your_compass_server-memcached-1
+748d70c80c4d   kitcher-php-queue                   "docker-php-entrypoi…"   7 weeks ago     Up 7 hours                  9000/tcp                                         php-queue
+83742298f496   mariadb:10.3.31                     "docker-entrypoint.s…"   7 weeks ago     Exited (0) 7 weeks ago                                                       db
+5421123e846f   php81_xdebug-php81                  "docker-php-entrypoi…"   3 months ago    Exited (255) 3 months ago   9000/tcp                                         php81
+77b0dc79d464   kitcher-php-apache                  "docker-php-entrypoi…"   4 months ago    Exited (0) 7 weeks ago                                                       php-apache
+8a871487ed92   d-repo.rtmis.ru/promed:7.4_v5-dbg   "/tmp/start.sh"          4 months ago    Exited (255) 3 days ago     0.0.0.0:2080->2080/tcp, 0.0.0.0:8086->8086/tcp   promed
+2a421dc381dd   4c0d4ffda497                        "/bin/sh"                4 months ago    Created                                                                      phpstorm_helpers_PS-222.4345.15
+6fd297c03179   docker101tutorial                   "/docker-entrypoint.…"   7 months ago    Exited (0) 7 months ago                                                      docker-tutorial
+deec664c022c   alpine/git                          "git clone https://g…"   7 months ago    Exited (0) 7 months ago                                                      repo
+
+
+4. Выведите на экран логи контейнера с именем pinger
+
+$ docker logs pinger
+
+PING netology.ru (188.114.99.136): 56 data bytes
+64 bytes from 188.114.99.136: seq=0 ttl=58 time=2.577 ms
+64 bytes from 188.114.99.136: seq=1 ttl=58 time=4.394 ms
+64 bytes from 188.114.99.136: seq=2 ttl=58 time=3.033 ms
+64 bytes from 188.114.99.136: seq=3 ttl=58 time=2.842 ms
+64 bytes from 188.114.99.136: seq=4 ttl=58 time=10.687 ms
+64 bytes from 188.114.99.136: seq=5 ttl=58 time=2.911 ms
+64 bytes from 188.114.99.136: seq=6 ttl=58 time=4.959 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 2.577/4.486/10.687 ms
+
+
+5. Запустите второй раз контейнера с именем pinger
+
+docker run --name pinger -it busybox ping -c 7 netology.ru
+docker: Error response from daemon: Conflict. The container name "/pinger" is already in use by container "b4a486188b5fc44c8649cc9f099b8d57d5942e23f78490440a86565fccbdd092". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+
+
+6. Выведите на список всех контейнеров - запущенных и остановленных
+
+$ docker ps -a
+
+b4a486188b5f   busybox                             "ping -c 7 netology.…"   5 minutes ago   Exited (1) 5 minutes ago                                                     pinger
+afe3ca26c1e5   d-repo.rtmis.ru/medservice:beta     "/entry.sh"              6 days ago      Exited (255) 5 days ago     0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp         medservice
+c3b033eec340   nginx:1.12-alpine                   "nginx -g 'daemon of…"   3 weeks ago     Up 7 hours                  0.0.0.0:8080->80/tcp                             nginx
+b4d04e851dac   redis:latest                        "docker-entrypoint.s…"   3 weeks ago     Up 7 hours                  6379/tcp                                         your_compass_server-redis_system-1
+614b1b46fac8   your_compass_server-php-fpm         "docker-php-entrypoi…"   3 weeks ago     Up 7 hours                  9000/tcp                                         your_compass_server-php-fpm-1
+ee41f9612eee   mysql:8                             "docker-entrypoint.s…"   3 weeks ago     Up 7 hours                  33060/tcp, 0.0.0.0:3305->3306/tcp                your_compass_server-mysql-1
+f2568a110295   quay.io/minio/minio:latest          "/usr/bin/docker-ent…"   3 weeks ago     Up 7 hours                  0.0.0.0:9001->9001/tcp, 0.0.0.0:9002->9000/tcp   Minio
+6605d87546da   memcached:latest                    "docker-entrypoint.s…"   3 weeks ago     Up 7 hours                  11211/tcp                                        your_compass_server-memcached-1
+748d70c80c4d   kitcher-php-queue                   "docker-php-entrypoi…"   7 weeks ago     Up 7 hours                  9000/tcp                                         php-queue
+83742298f496   mariadb:10.3.31                     "docker-entrypoint.s…"   7 weeks ago     Exited (0) 7 weeks ago                                                       db
+5421123e846f   php81_xdebug-php81                  "docker-php-entrypoi…"   3 months ago    Exited (255) 3 months ago   9000/tcp                                         php81
+77b0dc79d464   kitcher-php-apache                  "docker-php-entrypoi…"   4 months ago    Exited (0) 7 weeks ago                                                       php-apache
+8a871487ed92   d-repo.rtmis.ru/promed:7.4_v5-dbg   "/tmp/start.sh"          4 months ago    Exited (255) 3 days ago     0.0.0.0:2080->2080/tcp, 0.0.0.0:8086->8086/tcp   promed
+2a421dc381dd   4c0d4ffda497                        "/bin/sh"                4 months ago    Created                                                                      phpstorm_helpers_PS-222.4345.15
+6fd297c03179   docker101tutorial                   "/docker-entrypoint.…"   7 months ago    Exited (0) 7 months ago                                                      docker-tutorial
+deec664c022c   alpine/git                          "git clone https://g…"   7 months ago    Exited (0) 7 months ago                                                      repo
+
+
+7. Выведите на экран логи контейнера с именем pinger
+
+$ docker logs pinger
+
+PING netology.ru (188.114.99.136): 56 data bytes
+64 bytes from 188.114.99.136: seq=0 ttl=58 time=2.577 ms
+64 bytes from 188.114.99.136: seq=1 ttl=58 time=4.394 ms
+64 bytes from 188.114.99.136: seq=2 ttl=58 time=3.033 ms
+64 bytes from 188.114.99.136: seq=3 ttl=58 time=2.842 ms
+64 bytes from 188.114.99.136: seq=4 ttl=58 time=10.687 ms
+64 bytes from 188.114.99.136: seq=5 ttl=58 time=2.911 ms
+64 bytes from 188.114.99.136: seq=6 ttl=58 time=4.959 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 2.577/4.486/10.687 ms
+
+
+8. Определите по логам общее количество запусков команды ping и какое общее количество отправленых запросов
+
+$ docker logs pinger | grep PING | wc -l
+
+1
+
+$ docker logs pinger | grep transmitted
+
+7 packets transmitted, 7 packets received, 0% packet loss
+
+
+9. Удалите контейнер с именем pinger
+
+$ docker rm pinger
+
+pinger
+
+
+10. Удалите образ busybox
+
+$ docker rmi busybox:latest
+
+docker rmi busybox:latest
+
+Untagged: busybox:latest
+Untagged: busybox@sha256:b5d6fe0712636ceb7430189de28819e195e8966372edfc2d9409d79402a0dc16
+Deleted: sha256:3fbaf71a998bae6e375be74b999bd418091bf6511e356a129fdc969c4a94a5bc
+Deleted: sha256:416052d13ad7f11c2b56249c179249f1ce37b0e1caf453bb037d863fd2588072

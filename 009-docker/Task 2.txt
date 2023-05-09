@@ -1,0 +1,49 @@
+1. Загрузите образ node версии 15.14
+
+$ docker pull node:15.14
+
+15.14: Pulling from library/node
+41f38ce3010a: Pull complete 
+ce440adabe2a: Pull complete 
+b7c0a158e8c1: Pull complete 
+d82fbf846f6f: Pull complete 
+c190b75eb2b4: Pull complete 
+1ce0b6aec0ac: Pull complete 
+d461dd6a01f5: Pull complete 
+860542326137: Pull complete 
+fba155217a46: Pull complete 
+Digest: sha256:608bba799613b1ebf754034ae008849ba51e88b23271412427b76d60ae0d0627
+Status: Downloaded newer image for node:15.14
+docker.io/library/node:15.14
+
+
+
+2. Запустите контейнер node в интерактивном режиме подключения терминала, поименуйте его mynode, передайте две переменные среды NAME=<ваше имя> и SURNAME=<ваша фамилия>
+
+$ docker run --name mynode -it -e NAME=Alexey -e SURNAME=Ermakov node:15.14
+
+Welcome to Node.js v15.14.0.
+Type ".help" for more information.
+
+
+
+3. В интерактивной среде выполнения node выполните скрипт, который выведет на экран приветсвтие: Привет, <ваше имя> <ваша фамилия>!, эти данные должны быть получены из переменных среды
+
+> console.log(`Привет, ${process.env.NAME} ${process.env.SURNAME}!`);
+
+Привет, Evgeniy Glechikov!
+
+4. Остановите контейнер
+
+$ docker stop mynode
+
+mynode
+
+
+5. Удалите образ node версии 15.14
+
+$ docker rmi -f node:15.14
+
+Untagged: node:15.14
+Untagged: node@sha256:608bba799613b1ebf754034ae008849ba51e88b23271412427b76d60ae0d0627
+Deleted: sha256:c9b1cc6b53791ec5df6210b2d454d12b7a2f181f0a6b0e8f1210c8386473eba7
